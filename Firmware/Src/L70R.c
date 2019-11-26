@@ -21,12 +21,25 @@
 
 #include "L70R.h"
 
+/*
+ $GPGGA,084223.000,0110.2922,S,03649.6962,E,1,4,10.95,1555.3,M,-23.5,M,,*68
+ $GPGLL,0110.2922,S,03649.6962,E,084223.000,A,A*4A
+ $GPGSA,A,3,27,16,26,31,,,,,,,,,20.22,10.95,16.99*3E
+ $GPGSV,3,1,12,08,54,233,,11,43,322,,27,40,180,25,23,40,265,14*79
+ $GPGSV,3,2,12,31,32,060,16,01,30,345,,16,20,156,24,22,19,339,*79
+ $GPGSV,3,3,12,14,17,023,,09,17,240,,26,16,128,17,03,10,319,*76
+ $GPRMC,084223.000,A,0110.2922,S,03649.6962,E,1.21,344.80,141119,,,A*79
+ $GPVTG,344.80,T,,M,1.21,N,2.25,K,A*31
+ */
+
 void l70_standby(uint8_t flag) {
 	l70 = &l70_info;
 
 	l70->time = 0;
 	l70->lat = 0;
+	l70->lat_ns = 0;
 	l70->lng = 0;
+	l70->lng_ew = 0;
 	l70->speed = 0;
 	l70->date = 0;
 
@@ -52,9 +65,9 @@ void l70_mode(uint8_t mode) {
  0 - $GPRMC
  1 - 175352.000
  2 - A
- 3 - 0110.3806
+ 3 - 0110.3667
  4 - S
- 5 - 03650.9018
+ 5 - 03649.6962
  6 - E
  7 - 0.14
  8 - 204.81
@@ -97,21 +110,24 @@ uint8_t l70_parse(uint8_t *nmea, uint16_t len) {
 				case 0: //nmea - gprmc
 				case 2: //validity
 				case 4: //lat dir
+					l70->lat_ns = result[0];
 				case 6: //lng dir
+					l70->lng_ew = result[0];
 				case 8: //magnetic variation
 					break;
 				case 1: //time
 					l70->time = ((uint32_t) result) + 30000;
-					if(l70->time > 240000 ) l70->time = l70->time - 240000;
+					if (l70->time > 240000)
+						l70->time = l70->time - 240000;
 					break;
 				case 3: //latitude
-					l70->lat = (uint32_t) (result * 10000.0);
+					l70->lat = convertRawCoords((uint32_t) (result * 10000.0));
 					break;
 				case 5: //longitude
-					l70->lng = (uint32_t) (result * 10000.0);
+					l70->lng = convertRawCoords((uint32_t) (result * 10000.0));
 					break;
 				case 7: //ground course speed km/hr
-					l70->speed = (uint8_t) (result*1.852);// * 100.0);
+					l70->speed = (uint8_t) (result * 1.852); // * 100.0);
 					break;
 				case 9: //date
 					l70->date = (uint32_t) result;
@@ -133,4 +149,11 @@ uint8_t l70_parse(uint8_t *nmea, uint16_t len) {
 		}
 	}
 	return 0;
+}
+
+uint32_t convertRawCoords(uint32_t coord) {
+	uint16_t crd_d1 = coord / 1000000;
+	uint32_t crd_d2 = (coord % 1000000) / 60;
+	crd_d2 = (crd_d1 * 10000) + crd_d2;
+	return crd_d2;
 }

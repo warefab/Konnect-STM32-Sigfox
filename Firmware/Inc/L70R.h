@@ -29,7 +29,9 @@
 struct l70_data {
 	uint32_t time;
 	uint32_t lat;
+	uint8_t lat_ns;
 	uint32_t lng;
+	uint8_t lng_ew;
 	uint8_t speed;
 	uint32_t date;
 } l70_info;
@@ -44,4 +46,5 @@ void l70_standby(uint8_t);
 void l70_mode(uint8_t);
 void l70_wakeup();
 uint8_t l70_parse(uint8_t*, uint16_t);
+uint32_t convertRawCoords(uint32_t);
 #endif /* L70R_H_ */
