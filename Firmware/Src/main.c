@@ -321,6 +321,14 @@ void sendSigfoxPacket() {
 		if (l70->speed >= 80) { //bit 5
 			flags |= (uint8_t) (1 << 5);
 		}
+		//latitude pos, if N=0, S=1
+		if (l70->lat_ns == 'S') { //bit 5
+			flags |= (uint8_t) (1 << 6);
+		}
+		//longitude pos, if E=0, W=1
+		if (l70->lng_ew == 'W') { //bit 5
+			flags |= (uint8_t) (1 << 7);
+		}
 
 		sht30x_get();
 		//format bytes to hex
