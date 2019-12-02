@@ -20,10 +20,10 @@
 #include "usart.h"
 
 enum Message{
-	M_VERSION,
-	M_ID,
-	M_PAC,
-	TOKEN
+	DV_VERSION,
+	DV_ID,
+	DV_PAC,
+	DV_TOKEN
 }msg_;
 
 void sendSigfoxMessage(char*);

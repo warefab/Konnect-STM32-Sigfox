@@ -18,7 +18,7 @@
 const char *at_messages[] = {"AT$I=0", "AT$I=10", "AT$I=11", "AT$SF="};
 
 void sendSigfoxMessage(char *data) {
-	usart_puts(&hlpuart1, (char*) at_messages[TOKEN]);
+	usart_puts(&hlpuart1, (char*) at_messages[DV_TOKEN]);
 	while (*data) {
 		usart_send(&hlpuart1, *data++);
 	}
@@ -26,11 +26,11 @@ void sendSigfoxMessage(char *data) {
 }
 
 void CheckSigfoxVersion(enum Message type_) {
-	if (type_ == VERSION) {
+	if (type_ == DV_VERSION) {
 		usart_puts(&huart1, (char*) "\nVER - ");
-	} else if (type_ == ID) {
+	} else if (type_ == DV_ID) {
 		usart_puts(&huart1, (char*) "ID - ");
-	} else if (type_ == PAC) {
+	} else if (type_ == DV_PAC) {
 		usart_puts(&huart1, (char*) "PAC - ");
 	}
 	usart_puts(&hlpuart1, (char*) at_messages[type_]); //get pac
