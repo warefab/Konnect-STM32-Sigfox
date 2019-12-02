@@ -338,8 +338,8 @@ void sendSigfoxPacket() {
 		//send debug port
 		usart_puts(&huart1, buffer);
 		usart_puts(&huart1, (char *)"\r\n");
-		//send to sigfox cloud, 20 sec delay
-		if(sigfox_delay >= 9){
+		//send to sigfox cloud, 36 sec delay
+		if(sigfox_delay >= 18){
 			sendSigfoxMessage((char *)buffer);
 			sigfox_delay = 0;
 		}else{
