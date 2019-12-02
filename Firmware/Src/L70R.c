@@ -110,9 +110,9 @@ uint8_t l70_parse(uint8_t *nmea, uint16_t len) {
 				case 0: //nmea - gprmc
 				case 2: //validity
 				case 4: //lat dir
-					l70->lat_ns = result[0];
+					l70->lat_ns = buf[0];
 				case 6: //lng dir
-					l70->lng_ew = result[0];
+					l70->lng_ew = buf[0];
 				case 8: //magnetic variation
 					break;
 				case 1: //time
