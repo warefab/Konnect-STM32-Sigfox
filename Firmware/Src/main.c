@@ -88,6 +88,7 @@ uint8_t sigfox_delay;
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
 void sendSigfoxPacket();
+void getSigfoxPACID();
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -158,8 +159,11 @@ int main(void) {
 	l70_mode(1);
 	//reset sigfox module
 	HAL_GPIO_WritePin(SFX_RST_GPIO_Port, SFX_RST_Pin, GPIO_PIN_RESET);
-	HAL_Delay(2000);
+	HAL_Delay(1000);
 	HAL_GPIO_WritePin(SFX_RST_GPIO_Port, SFX_RST_Pin, GPIO_PIN_SET);
+	HAL_Delay(500);
+	//print wisol info
+	getSigfoxPACID();
 	//stop buzzer timer
 	HAL_TIM_Base_Stop_IT(&htim2);
 
@@ -348,6 +352,14 @@ void sendSigfoxPacket() {
 	}
 }
 
+void getSigfoxPACID(){
+	CheckSigfoxVersion(DV_VERSION);
+	HAL_Delay(500);
+	CheckSigfoxVersion(DV_ID);
+	HAL_Delay(500);
+	CheckSigfoxVersion(DV_PAC);
+	HAL_Delay(500);
+}
 /* USER CODE END 4 */
 
 /**
