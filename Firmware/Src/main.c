@@ -74,19 +74,23 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-uint16_t adc_val_mic;
+volatile uint16_t mic_output;
 uint8_t ldr;
 uint32_t gps_tick_;
 uint8_t gps_flag;
 int32_t sigfox_tick_;
 uint8_t sigfox_flag;
 uint8_t sigfox_delay;
+
+uint8_t mic_sample_time = 50;
+
 //uint16_t adc_val_amb;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
+uint16_t computeMic();
 void sendSigfoxPacket();
 void getSigfoxPACID();
 /* USER CODE END PFP */
@@ -115,10 +119,10 @@ int main(void) {
 	sigfox_flag = 0;
 	sigfox_delay = 0;
 
-	for (adc_val_mic = 0; adc_val_mic < 512; adc_val_mic++) {
-		uart_buf[adc_val_mic] = 0;
+	for (mic_output = 0; mic_output < 512; mic_output++) {
+		uart_buf[mic_output] = 0;
 	}
-	adc_val_mic = 0;
+	mic_output = 0;
 	buf_cur_pos = 0;
 	/* USER CODE END 1 */
 
@@ -176,7 +180,7 @@ int main(void) {
 		HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_SET);
 		HAL_Delay(200);
 		HAL_GPIO_WritePin(LED_G_GPIO_Port, LED_G_Pin, GPIO_PIN_RESET);
-		HAL_Delay(1800);
+		//HAL_Delay(1800);
 		//send packets to sigfox cloud
 		sendSigfoxPacket();
 		/* USER CODE END WHILE */
@@ -233,6 +237,30 @@ void SystemClock_Config(void) {
 }
 
 /* USER CODE BEGIN 4 */
+
+uint16_t computeMic(){
+	uint16_t mic_max = 0;
+	uint16_t mic_min = 4095;
+	uint8_t x = 0;
+	uint16_t mic_ptp;
+
+	for (;x < 36; x++) {
+		uint32_t p_time = HAL_GetTick();
+		mic_ptp = 0;
+		while ((HAL_GetTick() - p_time) < mic_sample_time) {
+			if (mic_output < 4095) {
+				if (mic_output > mic_max) {
+					mic_max = mic_output;
+				} else if (mic_output < mic_min) {
+					mic_min = mic_output;
+				}
+			}
+		}
+		mic_ptp = mic_max - mic_min;
+	}
+	return mic_ptp;
+}
+
 void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
 	if (GPIO_Pin == BTN1_Pin) {
 		if ((HAL_GetTick() - gps_tick_) > 2000) {
@@ -257,7 +285,7 @@ void HAL_ADC_ConvCpltCallback(ADC_HandleTypeDef *hadc) {
 	for (x = 0; x < adc_buf_len; x++) {
 		adc_m += adc_data[x];
 	}
-	adc_val_mic = (uint16_t) (adc_m / adc_buf_len);
+	mic_output = (uint16_t) (adc_m / adc_buf_len);
 }
 
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
@@ -269,11 +297,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 void sendSigfoxPacket() {
 	//char packets[24];
 	uint8_t flags = 0;
-
+	uint8_t mic_status = (computeMic() > 8);
 	if (sigfox_flag == 0) {
 
 		ldr = HAL_GPIO_ReadPin(LDR_GPIO_Port, LDR_Pin);
-		sprintf(buffer, "\r\nMIC: %04d, LDR : %d\r\n", adc_val_mic, ldr);
+		sprintf(buffer, "\r\nMIC: %d, LDR : %d\r\n", mic_status, ldr);
 		usart_puts(&huart1, buffer);
 
 		//SHT30
@@ -299,7 +327,7 @@ void sendSigfoxPacket() {
 		usart_puts(&huart1, buffer);
 	} else {
 		//check mic, if noise/not
-		if (adc_val_mic > 87) { //bit 0
+		if (mic_status == 1) { //bit 0
 			flags |= (uint8_t) (1 << 0);
 		}
 		//light threshold, on/off
@@ -307,15 +335,19 @@ void sendSigfoxPacket() {
 		if (ldr == 1) { //bit 1
 			flags |= (uint8_t) (1 << 1);
 		}
-		//3 axis acc
-		Lis2dh12_getXYZ();
-		//check if acc x axis is negative
-		if (Lis2dh12->x < 0) { //bit 2
-			flags |= (uint8_t) (1 << 2);
-		}
-		//check if acc y axis is negative
-		if (Lis2dh12->y < 0) { //bit 3
-			flags |= (uint8_t) (1 << 3);
+
+		state = Lis2dh12_whoIAm();
+		if (state == 0x33) {
+			//3 axis acc
+			Lis2dh12_getXYZ();
+			//check if acc x axis is negative
+			if (Lis2dh12->x < 0) { //bit 2
+				flags |= (uint8_t) (1 << 2);
+			}
+			//check if acc y axis is negative
+			if (Lis2dh12->y < 0) { //bit 3
+				flags |= (uint8_t) (1 << 3);
+			}
 		}
 		//gps standby mode on/off
 		if (gps_flag == 1) { //bit 4
