@@ -52,6 +52,9 @@ void l70_standby(uint8_t flag) {
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
 }
 
+/*
+ * gps nmea sentence output mode
+ */
 void l70_mode(uint8_t mode) {
 	__HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE);
 	if (mode == 1) {
@@ -62,6 +65,7 @@ void l70_mode(uint8_t mode) {
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
 }
 /*
+ * parse gps nmea sentence, GPRMC
  0 - $GPRMC
  1 - 175352.000
  2 - A
@@ -151,6 +155,9 @@ uint8_t l70_parse(uint8_t *nmea, uint16_t len) {
 	return 0;
 }
 
+/*
+ * convert raw gps coords dd.mmmm to dd.dddd
+ */
 uint32_t convertRawCoords(uint32_t coord) {
 	uint16_t crd_d1 = coord / 1000000;
 	uint32_t crd_d2 = (coord % 1000000) / 60;
