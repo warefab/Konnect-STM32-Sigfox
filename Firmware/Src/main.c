@@ -63,7 +63,7 @@
 
 /* Private define ------------------------------------------------------------*/
 /* USER CODE BEGIN PD */
-
+#define  mic_sample_time 50
 /* USER CODE END PD */
 
 /* Private macro -------------------------------------------------------------*/
@@ -75,22 +75,17 @@
 
 /* USER CODE BEGIN PV */
 volatile uint16_t mic_output;
-uint8_t ldr;
 uint32_t gps_tick_;
 uint8_t gps_flag;
 int32_t sigfox_tick_;
 uint8_t sigfox_flag;
 uint8_t sigfox_delay;
-
-uint8_t mic_sample_time = 50;
-
-//uint16_t adc_val_amb;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-uint16_t computeMic();
+uint16_t getMicValue();
 void sendSigfoxPacket();
 void getSigfoxPACID();
 /* USER CODE END PFP */
@@ -111,8 +106,6 @@ uint8_t state;
  */
 int main(void) {
 	/* USER CODE BEGIN 1 */
-	//adc_val_amb = 0;
-	ldr = 0;
 	gps_tick_ = 0;
 	gps_flag = 0;
 	sigfox_tick_ = 0;
@@ -238,13 +231,13 @@ void SystemClock_Config(void) {
 
 /* USER CODE BEGIN 4 */
 
-uint16_t computeMic(){
+uint16_t getMicValue() {
 	uint16_t mic_max = 0;
 	uint16_t mic_min = 4095;
 	uint8_t x = 0;
 	uint16_t mic_ptp;
 
-	for (;x < 36; x++) {
+	for (; x < 36; x++) {
 		uint32_t p_time = HAL_GetTick();
 		mic_ptp = 0;
 		while ((HAL_GetTick() - p_time) < mic_sample_time) {
@@ -297,28 +290,32 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 void sendSigfoxPacket() {
 	//char packets[24];
 	uint8_t flags = 0;
-	uint8_t mic_status = (computeMic() > 8);
+	//mems mic, noise = 1, silent = 0
+	uint8_t mic_status = getMicValue() > 8;
+	//Ambient sensor, light = 1, dark = 0
+	uint8_t ldr = HAL_GPIO_ReadPin(LDR_GPIO_Port, LDR_Pin);
+	//sht30 temperature and humidity
+	sht30x_get();
+	//lis2dh12 acc x, y, z values
+	state = Lis2dh12_whoIAm();
+	if (state == 0x33) {
+		Lis2dh12_getXYZ();
+	}
+	//send readable data to debug port else to wisol module
 	if (sigfox_flag == 0) {
-
-		ldr = HAL_GPIO_ReadPin(LDR_GPIO_Port, LDR_Pin);
+		//mic and ldr
 		sprintf(buffer, "\r\nMIC: %d, LDR : %d\r\n", mic_status, ldr);
 		usart_puts(&huart1, buffer);
 
 		//SHT30
-		if (sht30x_get() == 1) {
-			sprintf(buffer, "SHT30 -> C : %d, F : %d, H : %d\r\n",
-					sht30x->cTemp, sht30x->fTemp, sht30x->humidity);
-			usart_puts(&huart1, buffer);
-		}
+		sprintf(buffer, "SHT30 -> C : %d, F : %d, H : %d\r\n", sht30x->cTemp,
+				sht30x->fTemp, sht30x->humidity);
+		usart_puts(&huart1, buffer);
 
 		//LIS2DH12
-		state = Lis2dh12_whoIAm();
-		if (state == 0x33) {
-			Lis2dh12_getXYZ();
-			sprintf(buffer, "LIS2DH12 -> X: %03d,  Y: %03d, Z: %0d\r\n",
-					Lis2dh12->x, Lis2dh12->y, Lis2dh12->z);
-			usart_puts(&huart1, buffer);
-		}
+		sprintf(buffer, "LIS2DH12 -> X: %03d,  Y: %03d, Z: %0d\r\n",
+				Lis2dh12->x, Lis2dh12->y, Lis2dh12->z);
+		usart_puts(&huart1, buffer);
 
 		//L70R
 		sprintf(buffer,
@@ -331,23 +328,16 @@ void sendSigfoxPacket() {
 			flags |= (uint8_t) (1 << 0);
 		}
 		//light threshold, on/off
-		ldr = HAL_GPIO_ReadPin(LDR_GPIO_Port, LDR_Pin);
 		if (ldr == 1) { //bit 1
 			flags |= (uint8_t) (1 << 1);
 		}
-
-		state = Lis2dh12_whoIAm();
-		if (state == 0x33) {
-			//3 axis acc
-			Lis2dh12_getXYZ();
-			//check if acc x axis is negative
-			if (Lis2dh12->x < 0) { //bit 2
-				flags |= (uint8_t) (1 << 2);
-			}
-			//check if acc y axis is negative
-			if (Lis2dh12->y < 0) { //bit 3
-				flags |= (uint8_t) (1 << 3);
-			}
+		//check if acc x axis is negative
+		if (Lis2dh12->x < 0) { //bit 2
+			flags |= (uint8_t) (1 << 2);
+		}
+		//check if acc y axis is negative
+		if (Lis2dh12->y < 0) { //bit 3
+			flags |= (uint8_t) (1 << 3);
 		}
 		//gps standby mode on/off
 		if (gps_flag == 1) { //bit 4
@@ -366,25 +356,24 @@ void sendSigfoxPacket() {
 			flags |= (uint8_t) (1 << 7);
 		}
 
-		sht30x_get();
 		//format bytes to hex
 		sprintf(buffer, "%06lX%08lX%02X%02X%02X%02X%02X", l70->lat, l70->lng,
-				(uint8_t)abs(Lis2dh12->x), (uint8_t)abs(Lis2dh12->y), sht30x->cTemp,
-				sht30x->humidity, flags);
-		//send debug port
+				(uint8_t) abs(Lis2dh12->x), (uint8_t) abs(Lis2dh12->y),
+				sht30x->cTemp, sht30x->humidity, flags);
+		//send to debug port
 		usart_puts(&huart1, buffer);
-		usart_puts(&huart1, (char *)"\r\n");
+		usart_puts(&huart1, (char*) "\r\n");
 		//send to sigfox cloud, 36 sec delay
-		if(sigfox_delay >= 18){
-			sendSigfoxMessage((char *)buffer);
+		if (sigfox_delay >= 18) {
+			sendSigfoxMessage((char*) buffer);
 			sigfox_delay = 0;
-		}else{
+		} else {
 			sigfox_delay++;
 		}
 	}
 }
 
-void getSigfoxPACID(){
+void getSigfoxPACID() {
 	CheckSigfoxVersion(DV_VERSION);
 	HAL_Delay(500);
 	CheckSigfoxVersion(DV_ID);
