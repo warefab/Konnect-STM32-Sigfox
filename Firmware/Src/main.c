@@ -88,6 +88,7 @@ void SystemClock_Config(void);
 uint16_t getMicValue();
 void sendSigfoxPacket();
 void getSigfoxPACID();
+char* dateTimeFormat(char *bf_tk, uint32_t, char);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -290,8 +291,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 void sendSigfoxPacket() {
 	//char packets[24];
 	uint8_t flags = 0;
+	//date/time
+	char time[12] = {0};
+	char date[12] = {0};
+	char gps_ns, gps_ew;
 	//mems mic, noise = 1, silent = 0
-	uint8_t mic_status = getMicValue() > 8;
+	uint16_t mic_val = getMicValue();
+	uint8_t mic_status;
 	//Ambient sensor, light = 1, dark = 0
 	uint8_t ldr = HAL_GPIO_ReadPin(LDR_GPIO_Port, LDR_Pin);
 	//sht30 temperature and humidity
@@ -303,8 +309,12 @@ void sendSigfoxPacket() {
 	}
 	//send readable data to debug port else to wisol module
 	if (sigfox_flag == 0) {
+		dateTimeFormat(time, l70->time, ':');
+		dateTimeFormat(date, l70->date, '-');
+		gps_ns = (l70->lat_ns == 0) ? ' ' : l70->lat_ns;
+		gps_ew = (l70->lng_ew == 0) ? ' ' : l70->lng_ew;
 		//mic and ldr
-		sprintf(buffer, "\r\nMIC: %d, LDR : %d\r\n", mic_status, ldr);
+		sprintf(buffer, "\r\nMIC: %04d, LDR : %d\r\n", mic_val, ldr);
 		usart_puts(&huart1, buffer);
 
 		//SHT30
@@ -319,11 +329,13 @@ void sendSigfoxPacket() {
 
 		//L70R
 		sprintf(buffer,
-				"L70R -> TIME: %06ld,  LAT: %ld, LNG : %ld, SPEED : %d, DATE : %ld\r\n",
-				l70->time, l70->lat, l70->lng, l70->speed, l70->date);
+				"L70R -> TIME: %s,  LAT: %.4f%c, LNG : %.4f%c, SPEED : %d, DATE : %s\r\n",
+				time, (float) (l70->lat / 10000.0), gps_ns,
+				(float) (l70->lng / 10000.0), gps_ew, l70->speed, date);
 		usart_puts(&huart1, buffer);
 	} else {
 		//check mic, if noise/not
+		mic_status = (mic_val > 8) ? 1 : 0;
 		if (mic_status == 1) { //bit 0
 			flags |= (uint8_t) (1 << 0);
 		}
@@ -380,6 +392,14 @@ void getSigfoxPACID() {
 	HAL_Delay(500);
 	CheckSigfoxVersion(DV_PAC);
 	HAL_Delay(500);
+}
+
+char* dateTimeFormat(char *buf_tk, uint32_t dt_, char sep) {
+	uint8_t tk1 = (dt_ / 10000.0);
+	uint8_t tk2 = ((uint16_t) (dt_ / 100.0)) % 100;
+	uint8_t tk3 = (uint8_t)(dt_ % 100);
+	sprintf(buf_tk, "%02d%c%02d%c%02d", tk1, sep, tk2, sep, tk3);
+	return buf_tk;
 }
 /* USER CODE END 4 */
 
