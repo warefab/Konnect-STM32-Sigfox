@@ -21,11 +21,14 @@
 #include "usart.h"
 #include "gpio.h"
 
-#define L70_STDY  "$PMTK161,0*28\r\n"
-#define RMC_ONLY "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29\r\n"
-#define NMEA_ALL "$PMTK314,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0*28\r\n"
-#define L70_RST "$PMTK314,-1*04\r\n"
-
+#define L70_STDY  "$PMTK161,0*28"
+#define RMC_1_PFIX "$PMTK314,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*29"
+#define RMC_5_PFIX "$PMTK314,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*2D"
+#define NMEA_ALL "$PMTK314,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0*28"
+#define NMEA_NONE "$PMTK314,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0*28"
+#define L70_RST "$PMTK314,-1*04"
+#define NMEA_FIX "$PMTK220,3000*1D"
+#define NMEA_PPS "$PMTK220,3000*1D"
 struct l70_data {
 	uint32_t time;
 	uint32_t lat;

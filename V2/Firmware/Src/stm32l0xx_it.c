@@ -210,7 +210,7 @@ void USART2_IRQHandler(void)
   /* USER CODE BEGIN USART2_IRQn 0 */
 	//uint16_t size;
   /* USER CODE END USART2_IRQn 0 */
-  //HAL_UART_IRQHandler(&huart2);
+  HAL_UART_IRQHandler(&huart2);
   /* USER CODE BEGIN USART2_IRQn 1 */
 	if (__HAL_UART_GET_FLAG(&huart2, UART_FLAG_RXNE)) {
 		uint16_t u2_rx = (uint16_t) (USART2->RDR & 0x01FF);
@@ -233,7 +233,7 @@ void RNG_LPUART1_IRQHandler(void)
   /* USER CODE BEGIN RNG_LPUART1_IRQn 0 */
 
   /* USER CODE END RNG_LPUART1_IRQn 0 */
-  //HAL_UART_IRQHandler(&hlpuart1);
+  HAL_UART_IRQHandler(&hlpuart1);
   /* USER CODE BEGIN RNG_LPUART1_IRQn 1 */
 	if (__HAL_UART_GET_FLAG(&hlpuart1, UART_FLAG_RXNE)) {
 		uint16_t lpu1_rx = (uint16_t) (LPUART1->RDR & 0x01FF);

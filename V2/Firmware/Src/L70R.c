@@ -49,9 +49,8 @@ void l70_standby(uint8_t flag) {
 	__HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE);
 	if (flag == 1) {
 		usart_puts(&huart2, (char*) L70_STDY);
-	} else {
-		usart_puts(&huart2, (char*) "\r\n");
 	}
+	usart_puts(&huart2, (char*) "\r\n");
 	__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
 
 	//l70_init();
@@ -62,11 +61,14 @@ void l70_standby(uint8_t flag) {
  */
 void l70_mode(uint8_t mode) {
 	//__HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE);
-	if (mode == 1) {
-		usart_puts(&huart2, (char*) RMC_ONLY);
-	} else {
+	if (mode == 0) {
+		usart_puts(&huart2, (char*) NMEA_NONE);
+	} else if (mode == 1) {
+		usart_puts(&huart2, (char*) RMC_1_PFIX);
+	} else if (mode == 2) {
 		usart_puts(&huart2, (char*) NMEA_ALL);
 	}
+	usart_puts(&huart2, (char*)"\r\n");
 	//__HAL_UART_ENABLE_IT(&huart2, UART_IT_RXNE);
 }
 /*
