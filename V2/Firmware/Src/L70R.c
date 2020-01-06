@@ -63,17 +63,6 @@ void l70_mode(uint8_t mode) {
 }
 /*
  * parse gps nmea sentence, GPRMC
- 0 - $GPRMC
- 1 - 175352.000
- 2 - A
- 3 - 0110.3667
- 4 - S
- 5 - 03649.6962
- 6 - E
- 7 - 0.14
- 8 - 204.81
- 9 - 141119
- A*7E
  */
 uint8_t l70_parse(uint8_t *nmea, uint16_t len) {
 	uint16_t size = len;
