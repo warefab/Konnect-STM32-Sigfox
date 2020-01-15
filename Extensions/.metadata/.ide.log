@@ -293,3 +293,89 @@
 2020-01-15 15:25:49,451 [INFO] BoardDetailPanel:179 - Set advertising image to C:/Users/Muchiri Mercy/STM32Cube/Repository/\PRSTM32MP10219-01-med.jpg
 2020-01-15 15:25:49,521 [INFO] BoardFilterPanel:211 - Update 0 favorites Boards
 2020-01-15 15:25:49,601 [INFO] CrossSelectorPresenter:1319 - Cross Selector saved comparison directory: C:\Users\Muchiri Mercy\.stmcufinder\plugins\mcufinder\mcu\cs_comparisons_mx
+2020-01-15 15:34:40,275 [INFO] MainUpdater:2232 - connection check result : 10
+2020-01-15 15:34:40,275 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Successfull proxy connection.
+2020-01-15 15:34:40,295 [INFO] McuFinderGlobals:40 - Set McuFinder mode to 2 (CubeIDE integrated)
+2020-01-15 15:34:40,295 [INFO] FinderPluginLoader:86 - Searching for filters in installed packs
+2020-01-15 15:34:42,375 [INFO] LoadUrlFilesThread:161 - End of LoadServerUrlFiles without Thread
+2020-01-15 15:34:42,375 [INFO] McuDetailPanel:180 - Set advertising image to C:/Users/Muchiri Mercy/STM32Cube/Repository/\PRSTM32MP10219-01-med.jpg
+2020-01-15 15:34:43,255 [INFO] McuFilterPanel:282 - Update 0 favorites MCUs
+2020-01-15 15:34:43,895 [INFO] LoadUrlFilesThread:161 - End of LoadServerUrlFiles without Thread
+2020-01-15 15:34:43,895 [INFO] BoardDetailPanel:179 - Set advertising image to C:/Users/Muchiri Mercy/STM32Cube/Repository/\PRSTM32MP10219-01-med.jpg
+2020-01-15 15:34:44,085 [INFO] BoardFilterPanel:211 - Update 0 favorites Boards
+2020-01-15 15:34:44,145 [INFO] CrossSelectorPresenter:1319 - Cross Selector saved comparison directory: C:\Users\Muchiri Mercy\.stmcufinder\plugins\mcufinder\mcu\cs_comparisons_mx
+2020-01-15 16:06:43,738 [INFO] MainUpdater:2232 - connection check result : 10
+2020-01-15 16:06:43,738 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] Successfull proxy connection.
+2020-01-15 16:06:43,908 [INFO] MicroXplorer:390 - Change Database Path : 
+2020-01-15 16:06:43,908 [INFO] MicroXplorer:420 - Change Database Version : DB.5.0.40
+2020-01-15 16:06:43,908 [INFO] PinOutPanel:1367 - setPackage(No Configuration,No Configuration)
+2020-01-15 16:06:43,918 [INFO] UtilMem:74 - Begin LoadConfig() Used Memory: 461789152 Bytes (600834048)
+2020-01-15 16:06:43,918 [INFO] MicroXplorer:390 - Change Database Path : 
+2020-01-15 16:06:43,918 [INFO] MicroXplorer:420 - Change Database Version : DB.5.0.40
+2020-01-15 16:06:43,918 [INFO] OpenFileManager:269 - Change cursor
+2020-01-15 16:06:51,852 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (48USBFreq_Value) has invalid value (32000000)
+2020-01-15 16:06:51,852 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (FamilyName)
+2020-01-15 16:06:51,862 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Parameter (RTCHSEDivFreq_Value) has invalid value (8000000)
+2020-01-15 16:06:51,862 [INFO] ImportTextPane:162 - (OptionalMessage_ERROR) IP (RCC) : Invalid parameter (TIMFreq_Value)
+2020-01-15 16:06:52,652 [INFO] UtilMem:74 - End LoadConfig() Used Memory: 458121176 Bytes (600834048)
+2020-01-15 16:06:52,721 [INFO] ThirdPartyDb:294 - Open Third Party DataBase File (C:/Users/Muchiri Mercy/.stm32cubemx/plugins/thirdparty/db/thirdparties_db.xml) : 20 ms. number of Sw pack : 21
+2020-01-15 16:06:53,011 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE1 4.2.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 5.2.1
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE1 4.4.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 6.1.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 1.4.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 3.0.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 6.2.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-MEMS1 7.0.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 1.5.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 3.1.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-BLE2 1.0.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-GNSS1 4.0.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-NFC4 1.5.1
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-SUBG2 1.0.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :STMicroelectronics X-CUBE-TOUCHGFX 4.13.0
+2020-01-15 16:06:53,013 [INFO] ThirdParty:897 - CMSIS Pack Vendor :ARM CMSIS 5.6.0
+2020-01-15 16:06:53,710 [INFO] PinOutPanel:1367 - setPackage(No Configuration,No Configuration)
+2020-01-15 16:06:53,713 [INFO] PinOutPanel:1367 - setPackage(STM32L052C8Tx,LQFP48)
+2020-01-15 16:06:54,525 [INFO] UtilMem:74 - Before build in PCC Used Memory: 348316488 Bytes (600834048)
+2020-01-15 16:06:55,025 [INFO] SharedServices:71 - Folder for power plug-in: C:/Users/Muchiri Mercy/.stm32cubemx/plugins/power
+2020-01-15 16:06:55,045 [INFO] UtilMem:74 - After build in PCC Used Memory: 365093704 Bytes (600834048)
+2020-01-15 16:06:55,070 [INFO] BlockDiagram:1827 - stop enableDisableButtons
+2020-01-15 16:06:55,070 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,071 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,071 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,072 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,072 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,073 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,073 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,073 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,074 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,074 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,074 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,075 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,075 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,075 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,076 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,076 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,077 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,078 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,078 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,079 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,080 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,080 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,080 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,080 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,081 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,082 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,082 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,082 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,083 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,083 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,084 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,084 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,085 [INFO] IPUIPlugin:63 - create IPUIPlugin
+2020-01-15 16:06:55,136 [INFO] BlockDiagram:1827 - stop enableDisableButtons
+2020-01-15 16:06:55,186 [INFO] LogOutputStream:76 - [STDOUT_REDIRECT] toolchainItems.length=====1
+2020-01-15 16:06:55,424 [INFO] OpenFileManager:289 - Restore cursor
+2020-01-15 16:06:55,644 [INFO] BlockDiagram:1827 - stop enableDisableButtons
+2020-01-15 16:06:55,754 [INFO] BlockDiagram:1827 - stop enableDisableButtons
