@@ -21,6 +21,7 @@
 #include "usart.h"
 
 /* USER CODE BEGIN 0 */
+#include <stdlib.h>
 #include "gpio.h"
 /* USER CODE END 0 */
 
@@ -119,6 +120,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
     HAL_NVIC_SetPriority(RNG_LPUART1_IRQn, 0, 0);
     HAL_NVIC_EnableIRQ(RNG_LPUART1_IRQn);
   /* USER CODE BEGIN LPUART1_MspInit 1 */
+    memset(uart_buf, 0, 512);
 	__HAL_UART_ENABLE_IT(uartHandle, UART_IT_RXNE);
   /* USER CODE END LPUART1_MspInit 1 */
   }

@@ -21,7 +21,9 @@
 
 #include "L70R.h"
 
-
+/*
+ * init gps
+ */
 void l70_init() {
 	l70 = &l70_info;
 
@@ -34,6 +36,9 @@ void l70_init() {
 	l70->date = 0;
 }
 
+/*
+ * put gps in standby mode
+ */
 void l70_standby(uint8_t flag) {
 
 	__HAL_UART_DISABLE_IT(&huart2, UART_IT_RXNE);

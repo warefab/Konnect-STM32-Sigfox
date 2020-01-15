@@ -18,6 +18,9 @@
 
 const char *at_messages[] = {"AT$I=0", "AT$I=10", "AT$I=11", "AT$SF="};
 
+/*
+ * send a formatted(hex) message to sigfox cloud
+ */
 void sendSigfoxMessage(char *data) {
 	usart_puts(&hlpuart1, (char*) at_messages[DV_TOKEN]);
 	while (*data) {
@@ -26,6 +29,10 @@ void sendSigfoxMessage(char *data) {
 	usart_send(&hlpuart1, '\r');
 }
 
+/*
+ * check sifox version and ID
+ * helper function
+ */
 void CheckSigfoxVersion(enum Message type_) {
 	if (type_ == DV_VERSION) {
 		usart_puts(&huart1, (char*) "\nVER - ");
@@ -36,4 +43,27 @@ void CheckSigfoxVersion(enum Message type_) {
 	}
 	usart_puts(&hlpuart1, (char*) at_messages[type_]); //get pac
 	usart_send(&hlpuart1, '\r');
+}
+
+/*
+ * get sigfox wisol module ID and PAC
+ * logged to debug serial port, usart1
+ */
+void getSigfoxPACID() {
+	CheckSigfoxVersion(DV_VERSION);
+	HAL_Delay(200);
+	CheckSigfoxVersion(DV_ID);
+	HAL_Delay(200);
+	CheckSigfoxVersion(DV_PAC);
+	HAL_Delay(200);
+}
+
+/*
+ * reset sigfox module
+ */
+void resetSigfoxModule() {
+	HAL_GPIO_WritePin(SFX_RST_GPIO_Port, SFX_RST_Pin, GPIO_PIN_RESET);
+	HAL_Delay(250);
+	HAL_GPIO_WritePin(SFX_RST_GPIO_Port, SFX_RST_Pin, GPIO_PIN_SET);
+	HAL_Delay(250);
 }

@@ -29,6 +29,8 @@ enum Message{
 
 void sendSigfoxMessage(char*);
 void CheckSigfoxVersion(enum Message);
+void getSigfoxPACID();
+void resetSigfoxModule();
 
 
 #endif /* SIGFOX_H_ */
