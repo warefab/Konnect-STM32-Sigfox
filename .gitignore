@@ -4,3 +4,5 @@
 *.snap
 *.log
 *.xmi
+**/.metadata
+**/RemoteSystemsTempFiles
