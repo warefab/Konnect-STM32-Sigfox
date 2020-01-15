@@ -4,8 +4,3 @@
 *.snap
 *.log
 *.xmi
-.metadata
-RemoteSystemsTempFiles
-*.xmi
-Extensions/RemoteSystemsTempFiles/.project
-*.xmi
