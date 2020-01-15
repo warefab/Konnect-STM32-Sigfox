@@ -1,3 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<session version="1.0">&#x0A;<refactoring comment="Delete resource &apos;sigfox_wisol_dev_kit&apos;" deleteContents="false" description="Delete resource &apos;sigfox_wisol_dev_kit&apos;" element1="/sigfox_wisol_dev_kit" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1579091011966"/>&#x0A;<refactoring comment="Rename resource &apos;sigfox_wisol_dev_kit&apos; to &apos;Template_Project&apos;" description="Rename resource &apos;sigfox_wisol_dev_kit&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="/sigfox_wisol_dev_kit" name="Template_Project" stamp="1579091331808" updateReferences="true"/>
-</session>
