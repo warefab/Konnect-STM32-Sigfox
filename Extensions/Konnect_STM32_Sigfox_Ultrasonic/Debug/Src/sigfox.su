@@ -1,0 +1,4 @@
+sigfox.c:24:6:sendSigfoxMessage	16	static
+sigfox.c:36:6:CheckSigfoxVersion	8	static
+sigfox.c:52:6:getSigfoxPACID	16	static
+sigfox.c:64:6:resetSigfoxModule	8	static
