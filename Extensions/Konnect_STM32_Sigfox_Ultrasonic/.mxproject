@@ -1,7 +1,7 @@
 [PreviousGenFiles]
-HeaderPath=D:/sigfox/Warefab-Konnect-Sigfox-Dev-Board-master/V2/Firmware/Inc
+HeaderPath=D:/Github/warefab/Warefab-Konnect-Sigfox-Dev-Board/Extensions/Konnect_STM32_Sigfox_Ultrasonic/Inc
 HeaderFiles=stm32l0xx_it.h;stm32l0xx_hal_conf.h;main.h;gpio.h;adc.h;i2c.h;usart.h;spi.h;usb_device.h;usbd_conf.h;usbd_desc.h;usbd_cdc_if.h;sys.h;tim.h;dma.h;
-SourcePath=D:/sigfox/Warefab-Konnect-Sigfox-Dev-Board-master/V2/Firmware/Src
+SourcePath=D:/Github/warefab/Warefab-Konnect-Sigfox-Dev-Board/Extensions/Konnect_STM32_Sigfox_Ultrasonic/Src
 SourceFiles=stm32l0xx_it.c;stm32l0xx_hal_msp.c;main.c;gpio.c;adc.c;i2c.c;usart.c;spi.c;usb_device.c;usbd_conf.c;usbd_desc.c;usbd_cdc_if.c;sys.c;tim.c;dma.c;
 
 [PreviousLibFiles]

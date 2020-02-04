@@ -60,7 +60,6 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
     /* TIM6 clock enable */
     __HAL_RCC_TIM6_CLK_ENABLE();
   /* USER CODE BEGIN TIM6_MspInit 1 */
-    //__HAL_TIM_ENABLE(tim_baseHandle);
     HAL_TIM_Base_Start(tim_baseHandle);
   /* USER CODE END TIM6_MspInit 1 */
   }
