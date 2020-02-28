@@ -72,6 +72,8 @@ void Error_Handler(void);
 #define DBG_TX_GPIO_Port GPIOA
 #define DBG_RX_Pin GPIO_PIN_10
 #define DBG_RX_GPIO_Port GPIOA
+#define Bue_Led_Pin GPIO_PIN_3
+#define Bue_Led_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

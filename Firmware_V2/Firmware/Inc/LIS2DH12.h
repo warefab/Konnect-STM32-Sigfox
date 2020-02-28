@@ -106,7 +106,7 @@ uint8_t Lis2dh12_int1Latch(uint8_t enable);
 uint8_t Lis2dh12_int1Duration(uint8_t duration);
 uint8_t Lis2dh12_int1Threshold(uint8_t threshold);
 uint8_t Lis2dh12_int1Config(uint8_t config);
-void clearIntFlag();
+void Lis2dh12_clearIntFlag();
 
 uint8_t Lis2dh12_getXYZ();
 

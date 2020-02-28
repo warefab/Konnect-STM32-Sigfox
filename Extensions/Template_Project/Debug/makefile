@@ -32,6 +32,9 @@ default.size.stdout \
 OBJDUMP_LIST += \
 Template_Project.list \
 
+OBJCOPY_BIN += \
+Template_Project.bin \
+
 
 # All Target
 all:
@@ -56,6 +59,11 @@ Template_Project.list: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
+Template_Project.bin: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "Template_Project.bin"
+	@echo 'Finished building: $@'
+	@echo ' '
+
 # Other Targets
 clean:
 	-$(RM) *
@@ -66,7 +74,7 @@ post-build:
 	arm-none-eabi-objcopy.exe -O binary "Template_Project.elf" "Template_Project.bin"
 	-@echo ' '
 
-secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)
+secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST) $(OBJCOPY_BIN)
 
 .PHONY: all clean dependents
 .SECONDARY: post-build
